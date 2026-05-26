@@ -1,23 +1,47 @@
 # Roscoe MCP
 
-Semantic-search infrastructure for historical primary sources, served over
-the [Model Context Protocol](https://modelcontextprotocol.io/). Roscoe lets
+The **second version** of The Roscoe Project — semantic-search
+infrastructure for historical primary sources, served over the
+[Model Context Protocol](https://modelcontextprotocol.io/). Roscoe lets
 researchers query court opinions, Congressional debates, founders'
-correspondence, newspapers, and other archival material by *meaning* rather
-than by keyword, and returns results with direct links to the authoritative
-source — no fabricated content, no model-generated citations.
+correspondence, newspapers, and other archival material by *meaning*
+rather than by keyword, and returns results with direct links to the
+authoritative source — no fabricated content, no model-generated
+citations.
 
 The public project lives at **[roscoeproject.org](https://www.roscoeproject.org/)**.
+This repo is its single source of truth: it holds **the implementation,
+the public website, the deployment configuration, the agent and chat
+surfaces, and the test suite** — every artifact that constitutes
+"Roscoe" as a running system.
 
 | Surface | URL | What it is |
 |---|---|---|
-| Website | [www.roscoeproject.org](https://www.roscoeproject.org/) | Marketing site, mission, team, demos |
+| Website | [www.roscoeproject.org](https://www.roscoeproject.org/) | Marketing site, mission, team, demos — source in [`website/`](./website) |
 | RID browser | [rid.roscoeproject.org](https://rid.roscoeproject.org/) | Web UI for browsing collections and chatting against them |
 | MCP aggregator | `app.roscoeproject.org` | The multi-collection MCP endpoint (Bearer-token auth) |
 
-This repository holds the implementation. The source is private; this
-README is published via GitHub Pages as the only public-facing artifact of
-the repo itself.
+The repository is private; this README is published via GitHub Pages as
+the only public-facing artifact of the repo itself.
+
+## Two versions
+
+The Roscoe Project began in **June 2024** as
+[`rbpasker/Roscoe`](https://github.com/rbpasker/Roscoe) — V1, an
+OpenSearch-backed RAG over antebellum case law, built to support the
+author's own historical research. V1 proved the concept (semantic search
+can recover sources that keyword search misses, especially across the
+modern/period-terminology gap), and was the substrate for Pasker (2025),
+[*"Which History Has Condescended to Notice: Black Testimony in
+Antebellum Courts"*](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5416774).
+
+**This repository (Roscoe V2) is the rewrite**, started 24 December
+2025, that turns Roscoe from a single-purpose research tool into open
+research infrastructure: a federated MCP architecture, multiple
+collections beyond caselaw, an explicit identifier system, deployable
+without the original developer's laptop. The rest of this document
+describes V2; the V1 history is preserved at `rbpasker/Roscoe` for
+provenance but is no longer the running system.
 
 ## What's inside
 
@@ -58,10 +82,10 @@ a DOI form (`10.XXXX/1trshidr.abc123xy`) and to an MCP URI
 (`mcp://roscoe/1trshidr`). RIDs are stable across re-indexing and never
 re-issued.
 
-## Notable improvements since inception
+## What V2 added (selected milestones)
 
-The repository was opened on **24 December 2025**. Selected milestones
-since then:
+The V2 rewrite began on **24 December 2025**. The notable changes
+since then, grouped by area:
 
 ### Architecture & retrieval
 
@@ -157,10 +181,12 @@ since then:
 
 ## Timeline of major milestones
 
-A walk through the commit log, condensed to the changes that moved the
-project rather than every fix.
+A walk through the V2 commit log, condensed to the changes that moved
+the project rather than every fix. (V1 history, June 2024 –
+September 2025, lives at [`rbpasker/Roscoe`](https://github.com/rbpasker/Roscoe)
+and is not repeated here.)
 
-**December 2025 — foundation**
+**December 2025 — V2 foundation**
 
 - *24–25 Dec:* Repository opened; `uv` project initialised. First two
   collections stood up — `congrecord` (bulk-loaded into MetadataStore)
@@ -343,13 +369,20 @@ work is sequenced behind it.
 collections/       # One sub-directory per collection (mcp_server.py + collection.yaml + data)
 common/            # Shared retriever, aggregator, metadata, RID, config
 agent/             # Agent server (chat, prompts, session management)
-website/           # Source for www.roscoeproject.org
+website/           # roscoeproject.org — full source (HTML, CSS, content.yaml, CGI)
 cloudflare/        # Tunnel configuration
 docs/              # Internal architecture / testing / deployment docs (private)
-scripts/           # Operational scripts (deploy, tunnel setup, etc.)
+scripts/           # Operational scripts (deploy, tunnel setup, etc.) — includes push-website.sh
 skills/            # Claude Code skills shipped with the project
 .github/workflows/ # Sync this README to the public landing page on every change
 ```
+
+The **website at [`website/`](./website) is the actual deployed source
+for [www.roscoeproject.org](https://www.roscoeproject.org/)**, not a
+mirror or a build target — `scripts/push-website.sh` rsyncs that
+directory straight to the NFS host. Everything visible on the public
+site (mission, team, history, demos, contact form, architecture
+diagram) is edited here and pushed from here.
 
 The page you are reading lives in a separate **public** repository,
 [`rbpasker/roscoe-mcp-site`](https://github.com/rbpasker/roscoe-mcp-site),
