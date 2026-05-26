@@ -166,9 +166,9 @@ project rather than every fix.
   collections stood up — `congrecord` (bulk-loaded into MetadataStore)
   and `case-law`. MCP-initialisation timeout in `congrecord` fixed.
 - *26 Dec:* MCP aggregator added. Chronicling America ingester landed.
-- *27 Dec:* Books collection + **HierarchicalMetadataStore** for
-  works ↔ passages. **Vault** for secrets. **Taney** collection. Lazy
-  imports for `sentence_transformers` / `hnswlib` cut MCP startup from
+- *27 Dec:* **HierarchicalMetadataStore** for works ↔ passages.
+  **Vault** for secrets. **Taney** collection. Lazy imports for
+  `sentence_transformers` / `hnswlib` cut MCP startup from
   multi-second to sub-second. Parallel downloads for `chronamer`.
   `case-law` migrated onto the standard metadata schema. First base
   class for MCP servers.
@@ -189,7 +189,7 @@ project rather than every fix.
   and a share button. `chronamer` switched from the LOC API to local
   bulk OCR files (in-band passage text, with `get_page_text` for
   full pages); CSV-driven newspaper-name migration for the LOC 2025
-  URL change. Permalink fixes (`books`, `congrecord`). HNSW
+  URL change. `congrecord` permalinks fixed. HNSW
   small-index crash patched. Scholar / Analysis / **Brief** chat
   modes (Brief is default). Multi-user session management with
   auto-save.
@@ -231,8 +231,8 @@ project rather than every fix.
   `roscoe.env` into each `collection.yaml`. Chat tool-use
   continuation fixed.
 - *19 Jan:* Index-recovery tooling. **MPS / asyncio deadlock** on
-  Apple Silicon fixed. Incomplete books excluded from `list_books`.
-  Subprocess progress reporting for embeddings.
+  Apple Silicon fixed. Subprocess progress reporting for
+  embeddings.
 - *20 Jan:* **Centralised logging** rolled out across all components.
   Agent server infrastructure + Cloudflare config. Agent search with
   metrics and configurable `k`. **Test-result tracking** across runs
