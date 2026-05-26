@@ -171,8 +171,16 @@ cloudflare/        # Tunnel configuration
 docs/              # Internal architecture / testing / deployment docs (private)
 scripts/           # Operational scripts (deploy, tunnel setup, etc.)
 skills/            # Claude Code skills shipped with the project
-site/              # What you are reading — the published GitHub Pages site
+.github/workflows/ # Sync this README to the public landing page on every change
 ```
+
+The page you are reading lives in a separate **public** repository,
+[`rbpasker/roscoe-mcp-site`](https://github.com/rbpasker/roscoe-mcp-site),
+which holds nothing but a rendered copy of this README. A workflow
+(`.github/workflows/sync-readme-to-site.yml`) keeps the two in sync via
+an SSH deploy key scoped to that one repo. GitHub Pages on a private repo
+is a paid-plan feature; the sibling-repo pattern is the standard
+free-tier workaround.
 
 ## Status & licence
 
